@@ -1,4 +1,4 @@
-// const assert = require("assert");
+const assert = require("assert");
 
 describe("automate customer journey on ebay web page", () => {
   it("browse to ebay web page and check the page is right", () => {
@@ -6,19 +6,23 @@ describe("automate customer journey on ebay web page", () => {
     const title = browser.getTitle();
   });
 
-  it("select an item in popular destinations", () => {
-    $(".hl-popular-destinations-element").click();
+  it("search for keyword", () => {
+    //click on search box, type in keyword, click on search button
+    $("#gh-ac-box").click();
+    browser.keys("iPhone");
+    $("#gh-btn").click();
   });
 
-  it("select first item in the first carousel", () => {
-    $("#w8-xCarousel-x-carousel-items ul li").click();
-  });
+  it("check if valid results", () => {
+    let noResult = false;
+    //srp-river-results-message1 is an id used when search is altered by suggestion so check if altered or 0 results
+    if (
+      $("#srp-river-results-message1").isExisting() ||
+      $(".srp-controls__count-heading span").getText() === "0"
+    ) {
+      noResult = true;
+    }
 
-  it("click buy it now", () => {
-    $("#binBtn_btn").click();
-  });
-
-  it("click check out as a guest", () => {
-    $("#sbin-gxo-btn").click();
+    assert.strictEqual(noResult, false);
   });
 });
