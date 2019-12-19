@@ -1,0 +1,19 @@
+{
+  "name": "applitools-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@wdio/cli": "^5.17.0",
+    "@wdio/local-runner": "^5.17.0",
+    "@wdio/mocha-framework": "^5.16.15",
+    "@wdio/spec-reporter": "^5.16.11",
+    "@wdio/sync": "^5.17.0",
+    "chromedriver": "^79.0.0",
+    "wdio-chromedriver-service": "^5.0.2"
+  }
+}
