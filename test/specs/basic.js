@@ -47,4 +47,16 @@ describe("automate customer journey on ebay web page", () => {
       $(`${element}${i}`).selectByIndex(1);
     }
   });
+
+  it("select buy it now", () => {
+    $("#binBtn_btn").click();
+  });
+
+  it("check out as guest", () => {
+    $("#sbin-gxo-btn").click();
+  });
+
+  it("enter checkout details", () => {
+    $("#firstName").setValue("Ryan");
+  });
 });
