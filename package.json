@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "auto": "./node_modules/.bin/wdio wdio.conf.js"
+  },
   "keywords": [],
-  "author": "",
+  "author": "Ryan Kwan",
   "license": "ISC",
   "devDependencies": {
     "@wdio/cli": "^5.17.0",
@@ -15,5 +17,8 @@
     "@wdio/sync": "^5.17.0",
     "chromedriver": "^79.0.0",
     "wdio-chromedriver-service": "^5.0.2"
+  },
+  "dependencies": {
+    "chai": "^4.2.0"
   }
 }

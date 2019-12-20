@@ -1,9 +1,13 @@
-const assert = require("assert");
+const expect = require("chai").expect;
 
 describe("automate customer journey on ebay web page", () => {
-  it("browse to ebay web page and check the page is right", () => {
+  it("browse to ebay web page", () => {
     browser.url("https://www.ebay.com.au/");
+    //check title string contails 'eBay'
     const title = browser.getTitle();
+    expect(title)
+      .to.be.a("string")
+      .that.includes("eBay");
   });
 
   it("search for keyword", () => {
@@ -11,18 +15,10 @@ describe("automate customer journey on ebay web page", () => {
     $("#gh-ac-box").click();
     browser.keys("iPhone");
     $("#gh-btn").click();
-  });
 
-  it("check if valid results", () => {
-    let noResult = false;
-    //srp-river-results-message1 is an id used when search is altered by suggestion so check if altered or 0 results
-    if (
+    expect(
       $("#srp-river-results-message1").isExisting() ||
-      $(".srp-controls__count-heading span").getText() === "0"
-    ) {
-      noResult = true;
-    }
-
-    assert.strictEqual(noResult, false);
+        $(".srp-controls__count-heading span").getText() === "0"
+    ).eq(false);
   });
 });
