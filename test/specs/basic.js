@@ -18,20 +18,33 @@ describe("automate customer journey on ebay web page", () => {
     browser.keys("iPhone");
     $("#gh-btn").click();
 
+    const headingCounterCheck = $(
+      ".srp-controls__count-heading span"
+    ).isExisting()
+      ? $(".srp-controls__count-heading span").getText() === "0"
+      : false;
     //check results exist - srp-river-results-message1 ID only appears when suggested search happened instead
     expect(
-      $("#srp-river-results-message1").isExisting() ||
-        $(".srp-controls__count-heading span").getText() === "0"
+      $("#srp-river-results-message1").isExisting() || headingCounterCheck
     ).eq(false);
   });
 
   it("select item in results", () => {
-    //get name of item before clicking
-    const itemTitle = $("#srp-river-results ul li .s-item__title").getText();
+    //get url of item before clicking
+    const itemUrl = $("#srp-river-results ul li .s-item__link").getAttribute(
+      "href"
+    );
     $("#srp-river-results ul li .s-item__title").click();
 
-    //check new page title is name of item
-    const pageTitle = browser.getTitle();
-    expect(pageTitle).includes(itemTitle);
+    //check navigated to correct url
+    const pageUrl = browser.getUrl();
+    expect(pageUrl).includes(itemUrl);
+  });
+
+  it("select options", () => {
+    const element = "#msku-sel-";
+    for (i = 1; $(`${element}${i}`).isExisting(); i++) {
+      $(`${element}${i}`).selectByIndex(1);
+    }
   });
 });
