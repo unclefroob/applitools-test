@@ -4,19 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "auto": "./node_modules/.bin/wdio wdio.conf.js"
+    "setup": "./node_modules/.bin/wdio config -y",
+    "test": "./node_modules/.bin/wdio wdio.conf.js"
   },
   "keywords": [],
   "author": "Ryan Kwan",
   "license": "ISC",
   "devDependencies": {
     "@wdio/cli": "^5.17.0",
-    "@wdio/local-runner": "^5.17.0",
+    "@wdio/firefox-profile-service": "^5.16.11",
+    "@wdio/local-runner": "^5.18.0",
     "@wdio/mocha-framework": "^5.16.15",
+    "@wdio/selenium-standalone-service": "^5.16.10",
     "@wdio/spec-reporter": "^5.16.11",
     "@wdio/sync": "^5.17.0",
     "chromedriver": "^79.0.0",
-    "wdio-chromedriver-service": "^5.0.2"
+    "wdio-chromedriver-service": "^5.0.2",
+    "wdio-wiremock-service": "^2.25.1-8"
   },
   "dependencies": {
     "chai": "^4.2.0"
