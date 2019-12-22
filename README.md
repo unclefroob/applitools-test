@@ -7,6 +7,7 @@ Run the following setup and usage scripts in the root folder of this repo.
 ## Setup
 
 ```bash
+npm i
 npm run setup
 ```
 
