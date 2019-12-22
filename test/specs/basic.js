@@ -21,7 +21,7 @@ describe("automate customer journey on ebay web page", () => {
 
   it("search for keyword", () => {
     //click on search box, type in keyword, click on search button
-    $("#gh-ac-box").click();
+    $("#gh-ac-box").click(); //no click offset as no action is taken on click
     browser.keys("iPhone");
     browser.pause(rngTime());
     $("#gh-btn").click({ x: rng(), y: rng() });
@@ -40,19 +40,15 @@ describe("automate customer journey on ebay web page", () => {
   it("select item in results", () => {
     //get url of item before clicking
     let itemUrl;
-    if ($("#srp-river-results ul li .s-item__link").isExisting()){
+    if ($("#srp-river-results ul li .s-item__link").isExisting()) {
       itemUrl = $("#srp-river-results ul li .s-item__link").getAttribute(
         "href"
       );
-        $('#srp-river-results ul li .s-item__link').click({ x: rng(), y: rng() });
+      $("#srp-river-results ul li .s-item__link").click({ x: rng(), y: rng() });
     } else {
-      itemUrl = $("#ListViewInner li h3 a").getAttribute(
-        "href"
-      );
+      itemUrl = $("#ListViewInner li h3 a").getAttribute("href");
       $("#ListViewInner li h3 a").click({ x: rng(), y: rng() });
     }
-    
-
 
     //check navigated to correct url
     const pageUrl = browser.getUrl();
@@ -71,56 +67,61 @@ describe("automate customer journey on ebay web page", () => {
     $("#binBtn_btn").click({ x: rng(), y: rng() });
     const modalStyle = $("#vi_oly_streamLineBinOly").getAttribute("style");
     expect(modalStyle).includes("block");
-    // browser.debug();
   });
 
-    it("check out as guest", () => {
-      browser.pause(rngTime());
-      $("#sbin-gxo-btn").click({ x: rng(), y: rng() });
-      browser.waitUntil(
-        () => browser.getTitle() !== "",
-        5000,
-        "checkout failed to load"
-      );
-      const title = browser.getTitle();
-      expect(title).includes('Checkout');
-      
-    });
+  it("check out as guest", () => {
+    browser.pause(rngTime()); //wait before clicking to look organic
+    $("#sbin-gxo-btn").click({ x: rng(), y: rng() });
+    browser.waitUntil(
+      () => browser.getTitle() !== "",
+      5000,
+      "checkout failed to load"
+    );
+    const title = browser.getTitle();
+    expect(title).includes("Checkout");
+  });
 
-    it("enter checkout details", () => {
-      $("#country").selectByAttribute('value', 'AU');
-      $("#firstName").setValue("Ryan");
-      $("#lastName").setValue("Kwan");
-      $("#addressLine1").setValue("1 Real St");
-      $("#city").setValue("Massey");
-      $("#stateOrProvince").selectByIndex(1);
-      // $("#postalCode").setValue("2600");
-      $("#email").setValue("real@realemail.com");
-      $("#emailConfirm").setValue("real@realemail.com");
-      $("#phoneNumber").setValue("0401123445");
-      
-      browser.keys('\uE007')
-      browser.waitUntil(
-        () => $(".module--disabled-mask").isExisting() !== true,
-        15000,
-        "failed to load payment settings"
-      )
-      expect($(".module--disabled-mask").isExisting()).eq(true)
-    });
+  it("enter address details", () => {
+    //fill in form with dummy data
+    $("#country").selectByAttribute("value", "AU");
+    $("#firstName").setValue("Fish");
+    $("#lastName").setValue("Market");
+    $("#addressLine1").setValue("Pyrmont Bridge Rd");
+    $("#city").setValue("Pyrmont");
+    $("#stateOrProvince").selectByIndex(2);
+    $("#email").setValue("real@realemail.com");
+    $("#emailConfirm").setValue("real@realemail.com");
+    $("#phoneNumber").setValue("0481123567");
+    //press enter
+    browser.keys("\uE007");
+    browser.waitUntil(
+      () => $(".module--disabled-mask").isExisting() !== true,
+      15000,
+      "failed to load payment settings"
+    );
+    expect($(".module--disabled-mask").isExisting()).eq(false);
+  });
 
-    it("enter checkout details", () => {
-      $("#srs2").click()
-      browser.pause(rngTime())
-      $("#cardNumber").setValue("4968081354596944");
-      $("#cardExpiryDate").setValue("1023");
-      $("#securityCode").setValue("143");
-      browser.keys('\uE007')
-      // browser.debug();
-      browser.waitUntil(
-        () => $(".confirm-and-pay-wrapper button").getAttribute('aria-disabled') !== true,
-        5000,
-        "failed to enable confirm and pay button"
-      )
-      browser.debug()
-    });
+  it("enter card details", () => {
+    $("#srs2").click(); //no click offset as button is too small
+    browser.pause(3000);
+    $("#cardNumber").setValue("4968081354596944");
+    $("#cardExpiryDate").setValue("1023");
+    $("#securityCode").setValue("143");
+    browser.keys("\uE007");
+    browser.waitUntil(
+      () =>
+        $(".confirm-and-pay-wrapper button").getAttribute("aria-disabled") !==
+        "true",
+      10000,
+      "failed to enable confirm and pay button"
+    );
+    expect(
+      $(".confirm-and-pay-wrapper button").getAttribute("aria-disabled")
+    ).eq(null);
+  });
+  it("click confirm and pay", () => {
+    $(".confirm-and-pay-wrapper button").click();
+    browser.debug();
+  });
 });
