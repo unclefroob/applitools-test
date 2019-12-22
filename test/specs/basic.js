@@ -122,6 +122,5 @@ describe("automate customer journey on ebay web page", () => {
   });
   it("click confirm and pay", () => {
     $(".confirm-and-pay-wrapper button").click();
-    browser.debug();
   });
 });
